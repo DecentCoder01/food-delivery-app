@@ -12,8 +12,7 @@ import { Navigate } from 'react-router-dom'
 
 const App = () => {
 
-  const url = "https://food-delivery-app-8g01.onrender.com/api";
-
+  const url = "https://food-delivery-app-8g01.onrender.com";
 
   return (
     <div>
