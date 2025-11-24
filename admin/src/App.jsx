@@ -7,10 +7,11 @@ import List from './pages/List/List'
 import Orders from './pages/Orders/Orders'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import axios from 'axios'
 
 const App = () => {
 
-  const url = axios.get("https://food-delivery-app-8g01.onrender.com/api/food/list")
+  const url = axios.get("https://food-delivery-app-8g01.onrender.com")
 
   return (
     <div>
