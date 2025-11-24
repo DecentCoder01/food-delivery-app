@@ -10,7 +10,7 @@ import 'react-toastify/dist/ReactToastify.css'
 
 const App = () => {
 
-  const url = "http://localhost:4000";
+  const url = axios.get("https://food-delivery-app-8g01.onrender.com/api/food/list")
 
   return (
     <div>
