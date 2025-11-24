@@ -8,10 +8,12 @@ import Orders from './pages/Orders/Orders'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import axios from 'axios'
+import { Navigate } from 'react-router-dom'
 
 const App = () => {
 
-  const url = axios.get("https://food-delivery-app-8g01.onrender.com")
+  const url = "https://food-delivery-app-8g01.onrender.com/api";
+
 
   return (
     <div>
@@ -21,7 +23,7 @@ const App = () => {
       <div className="app-content">
         <Sidebar />
         <Routes >
-          <Route path="/" element={<List url={url} />} />
+          <Route path="/" element={<Navigate to="/list" />} />
           <Route path='/add' element={<Add url={url} />} />
           <Route path='/list' element={<List url={url} />} />
           <Route path='/orders' element={<Orders url={url} />} />
