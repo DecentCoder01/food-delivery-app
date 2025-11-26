@@ -18,7 +18,7 @@ app.use(express.json());
 app.use(cors({
     origin: [
         "https://food-delivery-app-yfnv.vercel.app",
-        "https://admin-food-delivery-eight.vercel.app"
+        "food-delivery-app-pt7z.vercel.app"
     ],
     methods: ["GET","POST","PUT","DELETE"],
     credentials: true
