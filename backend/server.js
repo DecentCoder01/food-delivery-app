@@ -14,15 +14,19 @@ const app = express();
 const port = 4000;
 
 // middleware
-app.use(express.json());
+
 app.use(cors({
     origin: [
+        "http://localhost:5173",
         "https://food-delivery-app-yfnv.vercel.app",
         "https://food-delivery-app-pt7z.vercel.app"
     ],
     methods: ["GET","POST","PUT","DELETE"],
     credentials: true
 }));
+
+app.use(express.json());
+
 
 // db connection
 connectDB();
