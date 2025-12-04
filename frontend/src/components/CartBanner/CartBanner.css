@@ -1,0 +1,58 @@
+.cart-banner {
+  position: fixed;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 480px;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  z-index: 2000;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translate(-50%, 50px); opacity: 0; }
+  to { transform: translate(-50%, 0); opacity: 1; }
+}
+
+.cart-banner-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.cart-banner-title {
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.cart-banner-price {
+  font-size: 15px;
+  font-weight: 500;
+  color: green;
+}
+
+.cart-banner-btn {
+  background: #028a0f;
+  color: white;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.cart-banner-btn:hover {
+  background: #026d0c;
+}
+
+.cart-banner-close {
+  margin-left: 10px;
+  cursor: pointer;
+  font-size: 20px;
+}

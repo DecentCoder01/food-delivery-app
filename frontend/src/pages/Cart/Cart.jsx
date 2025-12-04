@@ -2,11 +2,26 @@ import React, { useContext } from "react";
 import "./Cart.css";
 import { StoreContext } from "../../context/StoreContext";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Cart = () => {
-  const { cartItems, food_list, removeFromCart, getTotalCartAmount,url } = useContext(StoreContext);
-
+  const { cartItems, food_list, removeFromCart, getTotalCartAmount, url, token } = useContext(StoreContext);
   const navigate = useNavigate();
+
+  const handleCheckout = () => {
+    if (!token) {
+      toast.error("Please login to proceed to checkout!");
+      navigate("/");
+      return;
+    }
+
+    if (getTotalCartAmount() === 0) {
+      toast.info("Your cart is empty!");
+      return;
+    }
+
+    navigate('/order');
+  };
 
   return (
     <div className="cart">
@@ -21,17 +36,17 @@ const Cart = () => {
         </div>
         <br />
         <hr />
-        {food_list.map((item, index) => {
+        {food_list.map((item) => {
           if (cartItems[item._id] > 0) {
             return (
-              <div>
+              <div key={item._id}>
                 <div className="cart-items-title cart-items-item">
-                  <img src={url+ "/images/" +item.image} alt="" />
+                  <img src={url + "/images/" + item.image} alt="" />
                   <p>{item.name}</p>
                   <p>{cartItems[item._id]}</p>
-                  <p>${item.price}</p>
-                  <p>${item.price * cartItems[item._id]}</p>
-                  <p onClick={()=>removeFromCart(item._id)} className="cross">X</p>
+                  <p>₹{item.price}</p>
+                  <p>₹{item.price * cartItems[item._id]}</p>
+                  <p onClick={() => removeFromCart(item._id)} className="cross">X</p>
                 </div>
                 <hr />
               </div>
@@ -46,20 +61,20 @@ const Cart = () => {
           <div>
             <div className="cart-total-details">
               <p>SubTotal</p>
-              <p>${getTotalCartAmount()}</p>
+              <p>₹{getTotalCartAmount()}</p>
             </div>
             <hr />
             <div className="cart-total-details">
               <p>Delivery Fee</p>
-              <p>${getTotalCartAmount()===0?0:2}</p>
+              <p>₹{getTotalCartAmount() === 0 ? 0 : 30}</p>
             </div>
             <hr />
             <div className="cart-total-details">
               <b>Total</b>
-              <b>${getTotalCartAmount()===0?0:getTotalCartAmount()+2}</b>
+              <b>₹{getTotalCartAmount() === 0 ? 0 : getTotalCartAmount() + 30}</b>
             </div>
           </div>
-          <button onClick={()=>navigate('/order')}>PROCEED TO CHECKOUT</button>
+          <button onClick={handleCheckout}>PROCEED TO CHECKOUT</button>
         </div>
 
         <div className="cart-promocode">

@@ -8,6 +8,9 @@ import Footer from "./components/Footer/Footer";
 import Loginpopup from "./components/LoginPopup/Loginpopup";
 import Verify from "./pages/Verify/Verify";
 import MyOrders from "./pages/MyOrders/MyOrders";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import CartBanner from "./components/CartBanner/CartBanner";
 
 const App = () => {
 
@@ -25,7 +28,9 @@ const App = () => {
           <Route path="/verify" element={<Verify />} />
           <Route path="/myorders" element={<MyOrders />} />
         </Routes>
+        <ToastContainer position="top-right" autoClose={3000} />
       </div>
+      <CartBanner />
       <Footer />
     </>
   );
