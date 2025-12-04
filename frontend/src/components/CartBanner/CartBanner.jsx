@@ -8,11 +8,12 @@ const CartBanner = () => {
 
   const [showBanner, setShowBanner] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation();   // ⭐ Added
+  const location = useLocation();
 
   // ⭐ If user is already on /cart page, then hide the banner
+  
   useEffect(() => {
-    if (location.pathname === "/cart") {
+    if (location.pathname === "/cart" , "/order" , "myorders") {
       setShowBanner(false);
       return;
     }
@@ -22,6 +23,16 @@ const CartBanner = () => {
   // Check if cart is empty
   useEffect(() => {
     if (location.pathname === "/cart") {
+      setShowBanner(false);
+      return;
+    }
+
+    if (location.pathname === "/order") {
+      setShowBanner(false);
+      return;
+    }
+
+    if (location.pathname === "/myorders") {
       setShowBanner(false);
       return;
     }
