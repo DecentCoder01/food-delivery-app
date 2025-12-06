@@ -6,12 +6,18 @@ import { toast } from 'react-toastify'
 const List = ({url}) => {
 
   const [list,setList] = useState([]);
+
   const [search, setSearch] = useState("");
   const [sortType, setSortType] = useState("none");
 
-  // For editing
+  // Editing states
   const [editId, setEditId] = useState(null);
-  const [editData, setEditData] = useState({ name: "", price: "", category: "" });
+  const [editData, setEditData] = useState({
+    name: "",
+    price: "",
+    category: "",
+    image: null
+  });
 
   const fetchList = async () =>{
     const response = await axios.get(`${url}/api/food/list`);
@@ -35,9 +41,18 @@ const List = ({url}) => {
 
   const saveEdit = async (id) => {
     try {
-      const response = await axios.post(`${url}/api/food/update`, {
-        id,
-        ...editData
+      const formData = new FormData();
+      formData.append("id", id);
+      formData.append("name", editData.name);
+      formData.append("price", editData.price);
+      formData.append("category", editData.category);
+
+      if (editData.image) {
+        formData.append("image", editData.image);
+      }
+
+      const response = await axios.post(`${url}/api/food/update`, formData, {
+        headers: { "Content-Type": "multipart/form-data" }
       });
 
       if (response.data.success) {
@@ -72,10 +87,7 @@ const List = ({url}) => {
 
       {/* TOP BAR */}
       <div className="top-controls" style={{ 
-        width: "100%", 
-        display: "flex", 
-        gap: "10px", 
-        marginBottom: "15px" 
+        width: "100%", display: "flex", gap: "10px", marginBottom: "15px" 
       }}>
         
         <span style={{ fontSize: "18px", fontWeight: "bold" }}>
@@ -102,7 +114,7 @@ const List = ({url}) => {
 
       </div>
 
-      {/* ORIGINAL TABLE HEADER */}
+      {/* HEADER */}
       <p>All foods list</p>
       <div className="list-table">
         <div className="list-table-format title">
@@ -116,12 +128,32 @@ const List = ({url}) => {
 
       {filteredList.map((item,index)=>{
 
-        // If editing this row
+        // EDIT MODE
         if (editId === item._id) {
           return (
             <div key={index} className="list-table-format">
-              <img src={`${url}/images/` + item.image} alt="" />
 
+              {/* IMAGE EDIT */}
+              <label htmlFor="editImage" style={{ cursor: "pointer" }}>
+                <img
+                  src={
+                    editData.image
+                      ? URL.createObjectURL(editData.image)
+                      : `${url}/images/${item.image}`
+                  }
+                  alt=""
+                />
+              </label>
+              <input
+                id="editImage"
+                type="file"
+                hidden
+                onChange={(e) =>
+                  setEditData({ ...editData, image: e.target.files[0] })
+                }
+              />
+
+              {/* TEXT FIELDS */}
               <input
                 value={editData.name}
                 onChange={(e) => setEditData({ ...editData, name: e.target.value })}
@@ -137,18 +169,20 @@ const List = ({url}) => {
                 onChange={(e) => setEditData({ ...editData, price: e.target.value })}
               />
 
+              {/* ACTION BUTTONS */}
               <div style={{ display: "flex", gap: "10px" }}>
                 <button onClick={() => saveEdit(item._id)}>Save</button>
                 <button onClick={() => setEditId(null)}>Cancel</button>
               </div>
+
             </div>
           );
         }
 
-        // Normal row
+        // NORMAL MODE
         return(
           <div key={index} className="list-table-format">
-            <img src={`${url}/images/`+item.image} alt="" />
+            <img src={`${url}/images/${item.image}`} alt="" />
             <p>{item.name}</p>
             <p>{item.category}</p>
             <p>{item.price}</p>
@@ -161,7 +195,8 @@ const List = ({url}) => {
                   setEditData({
                     name: item.name,
                     price: item.price,
-                    category: item.category
+                    category: item.category,
+                    image: null
                   });
                 }}
               >

@@ -56,11 +56,13 @@ const updateFood = async (req, res) => {
   try {
     const { id, name, price, category } = req.body;
 
-    await foodModel.findByIdAndUpdate(id, {
-      name,
-      price,
-      category
-    });
+    let updateData = { name, price, category };
+
+    if (req.file) {
+      updateData.image = req.file.filename;
+    }
+
+    await foodModel.findByIdAndUpdate(id, updateData);
 
     res.json({ success: true, message: "Updated!" });
 
@@ -70,4 +72,4 @@ const updateFood = async (req, res) => {
 };
 
 
-export{addFood,listFood,removeFood}
+export{addFood,listFood,removeFood,updateFood}
